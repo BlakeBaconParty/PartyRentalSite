@@ -138,12 +138,34 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s ease;
       pointer-events: none;
     }
 
     .card-image img.active {
       opacity: 1;
+    }
+
+    .card-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 0 0;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .dot:hover,
+    .dot.active {
+      background: #0ea5e9;
+      transform: scale(1.15);
     }
 
     .card-body {
@@ -230,6 +252,10 @@
       font-weight: bold;
     }
 
+    .hidden {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
@@ -304,6 +330,11 @@
             <img src="image/starwars-2.jpg" alt="50ft Star Wars Obstacle Course photo 2" />
             <img src="image/starwars-3.jpg" alt="50ft Star Wars Obstacle Course photo 3" />
           </div>
+          <div class="card-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+          </div>
           <div class="card-body">
             <h3>50ft Star Wars Obstacle Course</h3>
             <p class="price">$350 <span class="price-note">/ 6 hours</span></p>
@@ -317,6 +348,11 @@
             <img src="image/duallane-2.jpg" alt="Dual Lane Slide photo 2" />
             <img src="image/duallane-3.jpg" alt="Dual Lane Slide photo 3" />
           </div>
+          <div class="card-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+          </div>
           <div class="card-body">
             <h3>Dual Lane Slide</h3>
             <p class="price">$300 <span class="price-note">/ event</span></p>
@@ -329,6 +365,11 @@
             <img src="image/bouncehouse-1.jpg" alt="Fun Bounce House photo 1" class="active" />
             <img src="image/bouncehouse-2.jpg" alt="Fun Bounce House photo 2" />
             <img src="image/bouncehouse-3.jpg" alt="Fun Bounce House photo 3" />
+          </div>
+          <div class="card-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
           </div>
           <div class="card-body">
             <h3>Fun Bounce House (15' x 15' x 12')</h3>
@@ -349,6 +390,10 @@
             <img src="image/generator-1.jpg" alt="Generator photo 1" class="active" />
             <img src="image/generator-2.jpg" alt="Generator photo 2" />
           </div>
+          <div class="card-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+          </div>
           <div class="card-body">
             <h3>Generator</h3>
             <p class="price">$50 <span class="price-note">/ 6 hours</span></p>
@@ -361,6 +406,11 @@
             <img src="image/obstacle-1.jpg" alt="Obstacle Course photo 1" class="active" />
             <img src="image/obstacle-2.jpg" alt="Obstacle Course photo 2" />
             <img src="image/obstacle-3.jpg" alt="Obstacle Course photo 3" />
+          </div>
+          <div class="card-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
           </div>
           <div class="card-body">
             <h3>Obstacle Course</h3>
@@ -398,16 +448,30 @@
           <input type="tel" name="phone" placeholder="Phone" required />
           <input type="email" name="email" placeholder="Email" required />
           <input type="date" name="date" required />
-          <select name="inflatable">
-            <option>50ft Star Wars Obstacle Course</option>
-            <option>Dual Lane Slide</option>
-            <option>Fun Bounce House (15' x 15' x 12')</option>
-            <option>Generator</option>
+
+          <select name="main_inflatable" id="mainInflatable" required>
+            <option value="">Select an inflatable</option>
+            <option value="50ft Star Wars Obstacle Course">50ft Star Wars Obstacle Course</option>
+            <option value="Dual Lane Slide">Dual Lane Slide</option>
+            <option value="Fun Bounce House (15' x 15' x 12')">Fun Bounce House (15' x 15' x 12')</option>
+            <option value="Generator">Generator</option>
           </select>
+
+          <div id="extraRentalWrap" class="hidden">
+            <select name="extra_rental" id="extraRental">
+              <option value="">Add another item (optional)</option>
+              <option value="50ft Star Wars Obstacle Course">50ft Star Wars Obstacle Course</option>
+              <option value="Dual Lane Slide">Dual Lane Slide</option>
+              <option value="Fun Bounce House (15' x 15' x 12')">Fun Bounce House (15' x 15' x 12')</option>
+              <option value="Generator">Generator</option>
+            </select>
+          </div>
+
           <textarea
             name="message"
-            placeholder="Tell us the event time, location, and which inflatable you want."
+            placeholder="Tell us the event time, location, and any other details."
           ></textarea>
+
           <button type="submit">Submit Quote</button>
         </form>
       </div>
@@ -436,40 +500,46 @@
 
     document.querySelectorAll(".gallery-card").forEach((card) => {
       const images = card.querySelectorAll(".card-image img");
-      let currentIndex = 0;
-      let interval = null;
+      const dots = card.querySelectorAll(".dot");
 
       function showImage(index) {
-        images.forEach((img) => img.classList.remove("active"));
-        images[index].classList.add("active");
+        images.forEach((img, i) => {
+          img.classList.toggle("active", i === index);
+        });
+
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
       }
 
-      function startGallery() {
-        if (images.length <= 1) return;
-
-        interval = setInterval(() => {
-          currentIndex = (currentIndex + 1) % images.length;
-          showImage(currentIndex);
-        }, 900);
-      }
-
-      function stopGallery() {
-        clearInterval(interval);
-        interval = null;
-        currentIndex = 0;
-        showImage(currentIndex);
-      }
-
-      card.addEventListener("mouseenter", startGallery);
-      card.addEventListener("mouseleave", stopGallery);
-
-      card.addEventListener("click", () => {
-        if (window.innerWidth <= 768 && images.length > 1) {
-          currentIndex = (currentIndex + 1) % images.length;
-          showImage(currentIndex);
-        }
+      dots.forEach((dot, index) => {
+        dot.addEventListener("mouseenter", () => showImage(index));
+        dot.addEventListener("click", () => showImage(index));
       });
     });
+
+    const mainInflatable = document.getElementById("mainInflatable");
+    const extraRentalWrap = document.getElementById("extraRentalWrap");
+    const extraRental = document.getElementById("extraRental");
+
+    function updateExtraDropdown() {
+      if (mainInflatable.value !== "") {
+        extraRentalWrap.classList.remove("hidden");
+      } else {
+        extraRentalWrap.classList.add("hidden");
+        extraRental.value = "";
+      }
+
+      Array.from(extraRental.options).forEach((option) => {
+        option.hidden = option.value !== "" && option.value === mainInflatable.value;
+      });
+
+      if (extraRental.value === mainInflatable.value) {
+        extraRental.value = "";
+      }
+    }
+
+    mainInflatable.addEventListener("change", updateExtraDropdown);
   </script>
 </body>
 </html>

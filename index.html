@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Good News Party Rentals</title>
   <style>
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -27,7 +33,7 @@
       padding: 10px 12px;
       font-size: 22px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
     .sidebar {
@@ -60,14 +66,14 @@
     }
 
     .sidebar a:hover {
-      background: rgba(255,255,255,0.18);
+      background: rgba(255, 255, 255, 0.18);
     }
 
     .overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       z-index: 900;
     }
 
@@ -81,7 +87,7 @@
       background: white;
       padding: 28px;
       border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     header h1 {
@@ -108,14 +114,36 @@
       background: white;
       border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .card img {
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-image {
+      position: relative;
       width: 100%;
       height: 220px;
+      overflow: hidden;
+      background: #e5e7eb;
+    }
+
+    .card-image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      display: block;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .card-image img.active {
+      opacity: 1;
     }
 
     .card-body {
@@ -144,6 +172,11 @@
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
     }
 
     .btn.secondary {
@@ -162,7 +195,7 @@
       background: white;
       border-radius: 14px;
       padding: 22px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     form {
@@ -171,7 +204,9 @@
       margin-top: 18px;
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       padding: 12px;
       border-radius: 8px;
       border: 1px solid #d1d5db;
@@ -227,7 +262,7 @@
         font-size: 24px;
       }
 
-      .card img {
+      .card-image {
         height: 190px;
       }
     }
@@ -235,143 +270,206 @@
 </head>
 <body>
 
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-<div class="sidebar" id="sidebar">
-  <h2>Good News</h2>
-  <a href="#home" onclick="closeMenu()">Home</a>
-  <a href="#rentals" onclick="closeMenu()">Inflatables</a>
-  <a href="#about" onclick="closeMenu()">About</a>
-  <a href="#pricing" onclick="closeMenu()">Pricing</a>
-  <a href="#booking" onclick="closeMenu()">Book Now</a>
-  <a href="#equipment" onclick="closeMenu()">Equipment</a>
-  <a href="#contact" onclick="closeMenu()">Contact</a>
-</div>
+  <div class="sidebar" id="sidebar">
+    <h2>Good News</h2>
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#rentals" onclick="closeMenu()">Inflatables</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#pricing" onclick="closeMenu()">Pricing</a>
+    <a href="#booking" onclick="closeMenu()">Book Now</a>
+    <a href="#equipment" onclick="closeMenu()">Equipment</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+  </div>
 
-<div class="main">
-  <header id="home">
-    <h1>Good News Party Rentals</h1>
-    <p>Bounce houses, obstacle courses, and fun for your next event.</p>
-    <div class="top-actions">
-      <a href="#booking" class="btn">Check Availability</a>
-      <a href="tel:YOURNUMBER" class="btn secondary">Call Now</a>
-    </div>
-  </header>
-
-  <section id="rentals">
-    <h2>Our Inflatables</h2>
-    <div class="grid">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176" alt="Star Wars obstacle course inflatable">
-        <div class="card-body">
-          <h3>50ft Star Wars Obstacle Course</h3>
-          <p class="price">$350 <span class="price-note">/ 6 hours</span></p>
-          <a href="#booking" class="btn">Request Quote</a>
-        </div>
+  <div class="main">
+    <header id="home">
+      <h1>Good News Party Rentals</h1>
+      <p>Bounce houses, obstacle courses, and fun for your next event.</p>
+      <div class="top-actions">
+        <a href="#booking" class="btn">Check Availability</a>
+        <a href="tel:9130000000" class="btn secondary">Call Now</a>
       </div>
+    </header>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865" alt="Dual lane slide inflatable">
-        <div class="card-body">
-          <h3>Dual Lane Slide</h3>
-          <p class="price">$300 <span class="price-note">/ event</span></p>
-          <a href="#booking" class="btn">Request Quote</a>
+    <section id="rentals">
+      <h2>Our Inflatables</h2>
+      <div class="grid">
+
+        <div class="card gallery-card">
+          <div class="card-image">
+            <img src="image/starwars-1.jpg" alt="50ft Star Wars Obstacle Course photo 1" class="active" />
+            <img src="image/starwars-2.jpg" alt="50ft Star Wars Obstacle Course photo 2" />
+            <img src="image/starwars-3.jpg" alt="50ft Star Wars Obstacle Course photo 3" />
+          </div>
+          <div class="card-body">
+            <h3>50ft Star Wars Obstacle Course</h3>
+            <p class="price">$350 <span class="price-note">/ 6 hours</span></p>
+            <a href="#booking" class="btn">Request Quote</a>
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176" alt="Fun bounce house inflatable">
-        <div class="card-body">
-          <h3>Fun Bounce House (15' x 15' x 12')</h3>
-          <p class="price">$200 <span class="price-note">/ 6 hours</span></p>
-          <a href="#booking" class="btn">Request Quote</a>
+        <div class="card gallery-card">
+          <div class="card-image">
+            <img src="image/duallane-1.jpg" alt="Dual Lane Slide photo 1" class="active" />
+            <img src="image/duallane-2.jpg" alt="Dual Lane Slide photo 2" />
+            <img src="image/duallane-3.jpg" alt="Dual Lane Slide photo 3" />
+          </div>
+          <div class="card-body">
+            <h3>Dual Lane Slide</h3>
+            <p class="price">$300 <span class="price-note">/ event</span></p>
+            <a href="#booking" class="btn">Request Quote</a>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="equipment">
-    <h2>Equipment</h2>
-    <div class="grid">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176" alt="Generator equipment">
-        <div class="card-body">
-          <h3>Generator</h3>
-          <p class="price">$50 <span class="price-note">/ 6 hours</span></p>
-          <a href="#booking" class="btn">Request</a>
+        <div class="card gallery-card">
+          <div class="card-image">
+            <img src="image/bouncehouse-1.jpg" alt="Fun Bounce House photo 1" class="active" />
+            <img src="image/bouncehouse-2.jpg" alt="Fun Bounce House photo 2" />
+            <img src="image/bouncehouse-3.jpg" alt="Fun Bounce House photo 3" />
+          </div>
+          <div class="card-body">
+            <h3>Fun Bounce House (15' x 15' x 12')</h3>
+            <p class="price">$200 <span class="price-note">/ 6 hours</span></p>
+            <a href="#booking" class="btn">Request Quote</a>
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865" alt="Additional rental equipment">
-        <div class="card-body">
-          <h3>Obstacle Course</h3>
-          <p class="price">$350 <span class="price-note">/ event</span></p>
-          <a href="#booking" class="btn">Request</a>
+      </div>
+    </section>
+
+    <section id="equipment">
+      <h2>Equipment</h2>
+      <div class="grid">
+
+        <div class="card gallery-card">
+          <div class="card-image">
+            <img src="image/generator-1.jpg" alt="Generator photo 1" class="active" />
+            <img src="image/generator-2.jpg" alt="Generator photo 2" />
+          </div>
+          <div class="card-body">
+            <h3>Generator</h3>
+            <p class="price">$50 <span class="price-note">/ 6 hours</span></p>
+            <a href="#booking" class="btn">Request</a>
+          </div>
         </div>
+
+        <div class="card gallery-card">
+          <div class="card-image">
+            <img src="image/obstacle-1.jpg" alt="Obstacle Course photo 1" class="active" />
+            <img src="image/obstacle-2.jpg" alt="Obstacle Course photo 2" />
+            <img src="image/obstacle-3.jpg" alt="Obstacle Course photo 3" />
+          </div>
+          <div class="card-body">
+            <h3>Obstacle Course</h3>
+            <p class="price">$350 <span class="price-note">/ event</span></p>
+            <a href="#booking" class="btn">Request</a>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="about">
-    <div class="info-box">
-      <h2>About Us</h2>
-      <p>
-        Good News Party Rentals provides clean, fun, and family-friendly inflatables for birthdays, church events, and community gatherings.
-        We focus on simple booking, good communication, and making your event easy from start to finish.
-      </p>
-    </div>
-  </section>
+    <section id="about">
+      <div class="info-box">
+        <h2>About Us</h2>
+        <p>
+          Good News Party Rentals provides clean, fun, and family-friendly inflatables
+          for birthdays, church events, and community gatherings. We focus on simple
+          booking, good communication, and making your event easy from start to finish.
+        </p>
+      </div>
+    </section>
 
-  <section id="pricing">
-    <div class="info-box">
-      <h2>Pricing</h2>
-      <p>Save money when you book multiple inflatables.</p>
-    </div>
-  </section>
+    <section id="pricing">
+      <div class="info-box">
+        <h2>Pricing</h2>
+        <p>Save money when you book multiple inflatables.</p>
+      </div>
+    </section>
 
-  <section id="booking">
-    <div class="info-box">
-      <h2>Book Your Rental</h2>
-      <form action="https://formspree.io/f/xwvrydek" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="tel" name="phone" placeholder="Phone" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="date" name="date" required>
-        <select name="inflatable">
-          <option>50ft Star Wars Obstacle Course</option>
-          <option>Dual Lane Slide</option>
-          <option>Fun Bounce House (15' x 15' x 12')</option>
-          <option>Generator</option>
-        </select>
-        <textarea name="message" placeholder="Tell us the event time, location, and which inflatable you want."></textarea>
-        <button type="submit">Submit Quote</button>
-      </form>
-    </div>
-  </section>
+    <section id="booking">
+      <div class="info-box">
+        <h2>Book Your Rental</h2>
+        <form action="https://formspree.io/f/xwvrydek" method="POST">
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="tel" name="phone" placeholder="Phone" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="date" name="date" required />
+          <select name="inflatable">
+            <option>50ft Star Wars Obstacle Course</option>
+            <option>Dual Lane Slide</option>
+            <option>Fun Bounce House (15' x 15' x 12')</option>
+            <option>Generator</option>
+          </select>
+          <textarea
+            name="message"
+            placeholder="Tell us the event time, location, and which inflatable you want."
+          ></textarea>
+          <button type="submit">Submit Quote</button>
+        </form>
+      </div>
+    </section>
 
-  <section id="contact">
-    <div class="info-box">
-      <h2>Contact</h2>
-      <p><strong>Phone:</strong> (Your Number)</p>
-      <p><strong>Email:</strong> (Your Email)</p>
-      <p><strong>Service Area:</strong> Add your cities here</p>
-    </div>
-  </section>
-</div>
+    <section id="contact">
+      <div class="info-box">
+        <h2>Contact</h2>
+        <p><strong>Phone:</strong> (Your Number)</p>
+        <p><strong>Email:</strong> (Your Email)</p>
+        <p><strong>Service Area:</strong> Add your cities here</p>
+      </div>
+    </section>
+  </div>
 
-<script>
-  function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-  }
+  <script>
+    function toggleMenu() {
+      document.getElementById("sidebar").classList.toggle("open");
+      document.getElementById("overlay").classList.toggle("show");
+    }
 
-  function closeMenu() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-  }
-</script>
+    function closeMenu() {
+      document.getElementById("sidebar").classList.remove("open");
+      document.getElementById("overlay").classList.remove("show");
+    }
 
+    document.querySelectorAll(".gallery-card").forEach((card) => {
+      const images = card.querySelectorAll(".card-image img");
+      let currentIndex = 0;
+      let interval = null;
+
+      function showImage(index) {
+        images.forEach((img) => img.classList.remove("active"));
+        images[index].classList.add("active");
+      }
+
+      function startGallery() {
+        if (images.length <= 1) return;
+
+        interval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % images.length;
+          showImage(currentIndex);
+        }, 900);
+      }
+
+      function stopGallery() {
+        clearInterval(interval);
+        interval = null;
+        currentIndex = 0;
+        showImage(currentIndex);
+      }
+
+      card.addEventListener("mouseenter", startGallery);
+      card.addEventListener("mouseleave", stopGallery);
+
+      card.addEventListener("click", () => {
+        if (window.innerWidth <= 768 && images.length > 1) {
+          currentIndex = (currentIndex + 1) % images.length;
+          showImage(currentIndex);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

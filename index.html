@@ -1,547 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Good News Party Rentals</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Good News Party Rentals</title>
 
-    html {
-      scroll-behavior: smooth;
-    }
+<style>
+* { box-sizing: border-box; }
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f5f7fb;
-      color: #111827;
-    }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f7fb;
+  color: #111827;
+}
 
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 1100;
-      background: #0ea5e9;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 22px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
+/* Layout */
+.sidebar {
+  width: 230px;
+  background: #0ea5e9;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  position: fixed;
+}
 
-    .sidebar {
-      width: 230px;
-      background: #0ea5e9;
-      color: white;
-      height: 100vh;
-      padding: 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      overflow-y: auto;
-      transition: transform 0.3s ease;
-      z-index: 1000;
-    }
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin: 10px 0;
+}
 
-    .sidebar h2 {
-      margin: 0 0 24px 0;
-      font-size: 18px;
-    }
+.main {
+  margin-left: 230px;
+  padding: 20px;
+}
 
-    .sidebar a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      margin: 10px 0;
-      padding: 10px 8px;
-      border-radius: 8px;
-      transition: background 0.2s ease;
-    }
+/* Cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
 
-    .sidebar a:hover {
-      background: rgba(255, 255, 255, 0.18);
-    }
+.card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
 
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 900;
-    }
+.card-image {
+  position: relative;
+  height: 220px;
+}
 
-    .main {
-      margin-left: 230px;
-      width: calc(100% - 230px);
-      padding: 22px 28px 40px;
-    }
+.card-image img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-    header {
-      background: white;
-      padding: 28px;
-      border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
+.card-image img.active {
+  opacity: 1;
+}
 
-    header h1 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 28px;
-    }
+/* Dots */
+.card-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+}
 
-    .top-actions {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  cursor: pointer;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
+.dot.active {
+  background: #0ea5e9;
+}
 
-    .card {
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px;
+  background: #0ea5e9;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-    }
+/* Form */
+form {
+  display: grid;
+  gap: 10px;
+}
 
-    .card-image {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-      background: #e5e7eb;
-    }
-
-    .card-image img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .card-image img.active {
-      opacity: 1;
-    }
-
-    .card-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 0 0;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #cbd5e1;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-
-    .dot:hover,
-    .dot.active {
-      background: #0ea5e9;
-      transform: scale(1.15);
-    }
-
-    .card-body {
-      padding: 16px;
-    }
-
-    .price {
-      font-weight: bold;
-      color: #16a34a;
-      font-size: 24px;
-      margin: 10px 0 0;
-    }
-
-    .price-note {
-      color: #6b7280;
-      font-size: 15px;
-      font-weight: normal;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 10px 15px;
-      background: #0ea5e9;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: opacity 0.2s ease;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
-    .btn.secondary {
-      background: #111827;
-    }
-
-    section {
-      margin-top: 42px;
-    }
-
-    section h2 {
-      margin-bottom: 10px;
-    }
-
-    .info-box {
-      background: white;
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    form {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    input,
-    textarea,
-    select {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      font: inherit;
-      width: 100%;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    button {
-      padding: 12px;
-      background: #0ea5e9;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font: inherit;
-      font-weight: bold;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      .sidebar {
-        transform: translateX(-100%);
-        width: 250px;
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .overlay.show {
-        display: block;
-      }
-
-      .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 76px 16px 32px;
-      }
-
-      header {
-        padding: 22px 18px;
-      }
-
-      header h1 {
-        font-size: 24px;
-      }
-
-      .card-image {
-        height: 190px;
-      }
-    }
-  </style>
+select, input, textarea {
+  padding: 10px;
+}
+</style>
 </head>
+
 <body>
 
-  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-  <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="sidebar">
+  <h2>Good News</h2>
+  <a href="#rentals">Inflatables</a>
+  <a href="#booking">Book</a>
+</div>
 
-  <div class="sidebar" id="sidebar">
-    <h2>Good News</h2>
-    <a href="#home" onclick="closeMenu()">Home</a>
-    <a href="#rentals" onclick="closeMenu()">Inflatables</a>
-    <a href="#about" onclick="closeMenu()">About</a>
-    <a href="#pricing" onclick="closeMenu()">Pricing</a>
-    <a href="#booking" onclick="closeMenu()">Book Now</a>
-    <a href="#equipment" onclick="closeMenu()">Equipment</a>
-    <a href="#contact" onclick="closeMenu()">Contact</a>
+<div class="main">
+
+<h1>Good News Party Rentals</h1>
+
+<section id="rentals">
+<div class="grid">
+
+<!-- CARD 1 (2 images) -->
+<div class="card gallery-card">
+  <div class="card-image">
+    <img src="fun1.jpg" class="active">
+    <img src="fun2.jpg">
   </div>
-
-  <div class="main">
-    <header id="home">
-      <h1>Good News Party Rentals</h1>
-      <p>Bounce houses, obstacle courses, and fun for your next event.</p>
-      <div class="top-actions">
-        <a href="#booking" class="btn">Check Availability</a>
-        <a href="tel:9130000000" class="btn secondary">Call Now</a>
-      </div>
-    </header>
-
-    <section id="rentals">
-      <h2>Our Inflatables</h2>
-      <div class="grid">
-
-        <div class="card gallery-card">
-          <div class="card-image">
-            <img src="fun-house-nowm-0.jpg" alt="Fun House Photo 1" class="active" />
-            <img src="fun-house-nowm-1.jpg" alt="Fun House Photo 2" />
-          </div>
-          <div class="card-dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-          </div>
-          <div class="card-body">
-            <h3>Fun House 15'x 15'x 12'</h3>
-            <p class="price">$200 <span class="price-note">/ 6 hours</span></p>
-            <a href="#booking" class="btn">Request Quote</a>
-          </div>
-        </div>
-
-        <div class="card gallery-card">
-          <div class="card-image">
-            <img src="castle-toddler-combo-nowm-0.jpg" alt="Castle Toddler Photo 1" class="active" />
-            <img src="castle-toddler-combo-nowm-1.jpg" alt="Castle Toddler Photo 2" />
-            <img src="castle-toddler-combo-nowm-2.jpg" alt="Castle Toddler Photo 3" />
-            <img src="castle-toddler-combo-nowm-3.jpg" alt="Castle Toddler Photo 4" />
-            <img src="castle-toddler-combo-nowm-4.jpg" alt="Castle Toddler Photo 5" />
-          </div>
-          <div class="card-dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-          </div>
-          <div class="card-body">
-            <h3>Castle Toddler Comboo 19'x 15'x 12'</h3>
-            <p class="price">$200 <span class="price-note">/ event</span></p>
-            <a href="#booking" class="btn">Request Quote</a>
-          </div>
-        </div>
-
-        <div class="card gallery-card">
-          <div class="card-image">
-            <img src="50-obstacle-course-nowm-0.jpg" alt="50ft obstacle course photo 1" class="active" />
-            <img src="50-obstacle-course-nowm-1.jpg" alt="50ft obstacle course photo 2" />
-            <img src="50-obstacle-course-nowm-2.jpg" alt="50ft obstacle course photo 3" />
-            <img src="50-obstacle-course-nowm-3.jpg" alt="50ft obstacle course photo 4" />
-          </div>
-          <div class="card-dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-          </div>
-          <div class="card-body">
-            <h3> Fun Bounce House(15' x 15' x 12')</h3>
-            <p class="price">$200 <span class="price-note">/ 6 hours</span></p>
-            <a href="#booking" class="btn">Request Quote</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section id="equipment">
-      <h2>Equipment</h2>
-      <div class="grid">
-
-        <div class="card gallery-card">
-          <div class="card-image">
-            <img src="image/generator-1.jpg" alt="Generator photo 1" class="active" />
-            <img src="image/generator-2.jpg" alt="Generator photo 2" />
-          </div>
-          <div class="card-dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-          </div>
-          <div class="card-body">
-            <h3>Generator</h3>
-            <p class="price">$50 <span class="price-note">/ 6 hours</span></p>
-            <a href="#booking" class="btn">Request</a>
-          </div>
-        </div>
-
-        <div class="card gallery-card">
-          <div class="card-image">
-            <img src="image/obstacle-1.jpg" alt="Obstacle Course photo 1" class="active" />
-            <img src="image/obstacle-2.jpg" alt="Obstacle Course photo 2" />
-            <img src="image/obstacle-3.jpg" alt="Obstacle Course photo 3" />
-          </div>
-          <div class="card-dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-          </div>
-          <div class="card-body">
-            <h3>Obstacle Course</h3>
-            <p class="price">$350 <span class="price-note">/ event</span></p>
-            <a href="#booking" class="btn">Request</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="info-box">
-        <h2>About Us</h2>
-        <p>
-          Good News Party Rentals provides clean, fun, and family-friendly inflatables
-          for birthdays, church events, and community gatherings. We focus on simple
-          booking, good communication, and making your event easy from start to finish.
-        </p>
-      </div>
-    </section>
-
-    <section id="pricing">
-      <div class="info-box">
-        <h2>Pricing</h2>
-        <p>Save money when you book multiple inflatables.</p>
-      </div>
-    </section>
-
-    <section id="booking">
-      <div class="info-box">
-        <h2>Book Your Rental</h2>
-        <form action="https://formspree.io/f/xwvrydek" method="POST">
-          <input type="text" name="name" placeholder="Your Name" required />
-          <input type="tel" name="phone" placeholder="Phone" required />
-          <input type="email" name="email" placeholder="Email" required />
-          <input type="date" name="date" required />
-
-          <select name="main_inflatable" id="mainInflatable" required>
-            <option value="">Select an inflatable</option>
-            <option value="50ft Star Wars Obstacle Course">50ft Star Wars Obstacle Course</option>
-            <option value="Dual Lane Slide">Dual Lane Slide</option>
-            <option value="Fun Bounce House (15' x 15' x 12')">Fun Bounce House (15' x 15' x 12')</option>
-            <option value="Generator">Generator</option>
-          </select>
-
-          <div id="extraRentalWrap" class="hidden">
-            <select name="extra_rental" id="extraRental">
-              <option value="">Add another item (optional)</option>
-              <option value="50ft Star Wars Obstacle Course">50ft Star Wars Obstacle Course</option>
-              <option value="Dual Lane Slide">Dual Lane Slide</option>
-              <option value="Fun Bounce House (15' x 15' x 12')">Fun Bounce House (15' x 15' x 12')</option>
-              <option value="Generator">Generator</option>
-            </select>
-          </div>
-
-          <textarea
-            name="message"
-            placeholder="Tell us the event time, location, and any other details."
-          ></textarea>
-
-          <button type="submit">Submit Quote</button>
-        </form>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="info-box">
-        <h2>Contact</h2>
-        <p><strong>Phone:</strong> (Your Number)</p>
-        <p><strong>Email:</strong> (Your Email)</p>
-        <p><strong>Service Area:</strong> Add your cities here</p>
-      </div>
-    </section>
+  <div class="card-body">
+    <h3>Fun House</h3>
+    <p>$200</p>
   </div>
+</div>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("sidebar").classList.toggle("open");
-      document.getElementById("overlay").classList.toggle("show");
+<!-- CARD 2 (5 images) -->
+<div class="card gallery-card">
+  <div class="card-image">
+    <img src="castle1.jpg" class="active">
+    <img src="castle2.jpg">
+    <img src="castle3.jpg">
+    <img src="castle4.jpg">
+    <img src="castle5.jpg">
+  </div>
+  <div class="card-body">
+    <h3>Castle Combo</h3>
+    <p>$300</p>
+  </div>
+</div>
+
+</div>
+</section>
+
+<section id="booking">
+<h2>Book</h2>
+
+<form>
+
+<div id="inflatableSelections">
+<select class="inflatable-select" required>
+<option value="">Select inflatable</option>
+<option>Fun House</option>
+<option>Castle Combo</option>
+<option>Generator</option>
+</select>
+</div>
+
+<textarea placeholder="Details"></textarea>
+<button>Submit</button>
+
+</form>
+
+</section>
+
+</div>
+
+<script>
+
+/* IMAGE DOT SYSTEM (AUTO) */
+document.querySelectorAll(".gallery-card").forEach(card => {
+  const images = card.querySelectorAll("img");
+  const dotsWrap = document.createElement("div");
+  dotsWrap.className = "card-dots";
+
+  function show(i){
+    images.forEach((img, idx)=> img.classList.toggle("active", idx===i));
+    dotsWrap.querySelectorAll(".dot")
+      .forEach((d, idx)=> d.classList.toggle("active", idx===i));
+  }
+
+  images.forEach((img,i)=>{
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    if(i===0) dot.classList.add("active");
+
+    dot.addEventListener("mouseenter", ()=>show(i));
+    dot.addEventListener("click", ()=>show(i));
+
+    dotsWrap.appendChild(dot);
+  });
+
+  card.insertBefore(dotsWrap, card.querySelector(".card-body"));
+});
+
+
+/* UNLIMITED DROPDOWNS */
+const options = ["Fun House","Castle Combo","Generator"];
+const wrap = document.getElementById("inflatableSelections");
+
+function addDropdown(){
+  const select = document.createElement("select");
+  select.className = "inflatable-select";
+
+  select.innerHTML = `<option value="">Add another inflatable</option>` +
+    options.map(o=>`<option>${o}</option>`).join("");
+
+  select.addEventListener("change", ()=>{
+    if(select.value !== "" && !select.nextElementSibling){
+      addDropdown();
     }
+  });
 
-    function closeMenu() {
-      document.getElementById("sidebar").classList.remove("open");
-      document.getElementById("overlay").classList.remove("show");
-    }
+  wrap.appendChild(select);
+}
 
-    document.querySelectorAll(".gallery-card").forEach((card) => {
-      const images = card.querySelectorAll(".card-image img");
-      const dots = card.querySelectorAll(".dot");
+document.querySelector(".inflatable-select")
+.addEventListener("change", addDropdown);
 
-      function showImage(index) {
-        images.forEach((img, i) => {
-          img.classList.toggle("active", i === index);
-        });
+</script>
 
-        dots.forEach((dot, i) => {
-          dot.classList.toggle("active", i === index);
-        });
-      }
-
-      dots.forEach((dot, index) => {
-        dot.addEventListener("mouseenter", () => showImage(index));
-        dot.addEventListener("click", () => showImage(index));
-      });
-    });
-
-    const mainInflatable = document.getElementById("mainInflatable");
-    const extraRentalWrap = document.getElementById("extraRentalWrap");
-    const extraRental = document.getElementById("extraRental");
-
-    function updateExtraDropdown() {
-      if (mainInflatable.value !== "") {
-        extraRentalWrap.classList.remove("hidden");
-      } else {
-        extraRentalWrap.classList.add("hidden");
-        extraRental.value = "";
-      }
-
-      Array.from(extraRental.options).forEach((option) => {
-        option.hidden = option.value !== "" && option.value === mainInflatable.value;
-      });
-
-      if (extraRental.value === mainInflatable.value) {
-        extraRental.value = "";
-      }
-    }
-
-    mainInflatable.addEventListener("change", updateExtraDropdown);
-  </script>
 </body>
 </html>

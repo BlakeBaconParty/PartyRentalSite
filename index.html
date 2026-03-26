@@ -277,7 +277,15 @@
   align-items: center;
   gap: 8px;
   margin-top: 8px;
-  font-size: 15px;
+}
+
+.radio-option label {
+  margin: 0;
+  cursor: pointer;
+}
+
+.radio-option input {
+  margin: 0;
 }
 
 .radio-option input {
@@ -464,18 +472,18 @@
   <input type="tel" name="phone" placeholder="Phone" required />
   <input type="email" name="email" placeholder="Email" required />
       <div style="margin-top:10px;">
-  <div class="contact-method">
-  <label><strong>Preferred Contact:</strong></label>
+ <div class="contact-method">
+  <strong>Preferred Contact:</strong>
 
-  <label class="radio-option">
-    <input type="radio" name="contact_method" value="Phone" required>
-    Phone
-  </label>
+  <div class="radio-option">
+    <input type="radio" id="contact-phone" name="contact_method" value="Phone" required>
+    <label for="contact-phone">Phone</label>
+  </div>
 
-  <label class="radio-option">
-    <input type="radio" name="contact_method" value="Email">
-    Email
-  </label>
+  <div class="radio-option">
+    <input type="radio" id="contact-email" name="contact_method" value="Email">
+    <label for="contact-email">Email</label>
+  </div>
 </div>
   <input type="date" name="date" required />
 

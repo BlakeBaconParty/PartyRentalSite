@@ -448,6 +448,20 @@
   <input type="text" name="name" placeholder="Your Name" required />
   <input type="tel" name="phone" placeholder="Phone" required />
   <input type="email" name="email" placeholder="Email" required />
+        <label>Preferred Contact Method:</label>
+<div>
+  <label>
+    <input type="radio" name="contact_method" value="Phone" required>
+    Phone
+  </label>
+</div>
+
+<div>
+  <label>
+    <input type="radio" name="contact_method" value="Email">
+    Email
+  </label>
+</div>
   <input type="date" name="date" required />
 
   <input type="text" name="address" placeholder="Event Address" required />
@@ -463,7 +477,8 @@
   placeholder="Please let us know what time your event starts and when you would like everything set up by. 
             You can also include any other details (location notes, surface type, etc.)."
 ></textarea>
-          <button type="submit">Submit Quote</button>
+         <small>We will respond within 24 hours with your quote.</small>
+<button type="submit">Submit Quote</button>
         </form>
       </div>
     </section>

@@ -443,17 +443,21 @@
     <section id="booking">
       <div class="info-box">
         <h2>Request Rental Booking</h2>
-        <form action="https://formspree.io/f/xwvrydek" method="POST">
-          <input type="text" name="name" placeholder="Your Name" required />
-          <input type="tel" name="phone" placeholder="Phone" required />
-          <input type="email" name="email" placeholder="Email" required />
-          <input type="date" name="date" required />
+      <form action="https://formspree.io/f/xwvrydek" method="POST">
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="tel" name="phone" placeholder="Phone" required />
+  <input type="email" name="email" placeholder="Email" required />
+  <input type="date" name="date" required />
 
-          <div id="inflatableSelections" class="inflatable-select-wrap">
-            <select name="inflatable_1" class="inflatable-select" required>
-              <option value="">Select an inflatable</option>
-            </select>
-          </div>
+  <input type="text" name="address" placeholder="Event Address" required />
+
+  <input type="time" name="event_time" required />
+
+  <div id="inflatableSelections" class="inflatable-select-wrap">
+    <select name="inflatable_1" class="inflatable-select" required>
+      <option value="">Select an inflatable</option>
+    </select>
+  </div>
 
           <textarea
             name="message"

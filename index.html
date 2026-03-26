@@ -474,20 +474,15 @@ select {
   <input type="tel" name="phone" placeholder="Phone" required />
   <input type="email" name="email" placeholder="Email" required />
       <div style="margin-top:10px;">
- <div class="contact-method">
-  <strong>Preferred Contact:</strong>
-
-  <div class="radio-option">
-    <input type="radio" id="contact-phone" name="contact_method" value="Phone" required>
-    <label for="contact-phone">Phone</label>
-  </div>
+ 
 
   <div class="radio-option">
     <input type="radio" id="contact-email" name="contact_method" value="Email">
     <label for="contact-email">Email</label>
   </div>
 </div>
-  <input type="date" name="date" required />
+ <label for="date">Event Date</label>
+<input type="date" id="date" name="date">
 
   <input type="text" name="address" placeholder="Event Address" required />
 
@@ -495,6 +490,13 @@ select {
     <select name="inflatable_1" class="inflatable-select" required>
       <option value="">Select an inflatable</option>
     </select>
+  </div>
+        <div class="contact-method">
+  <strong>Preferred Contact:</strong>
+
+  <div class="radio-option">
+    <input type="radio" id="contact-phone" name="contact_method" value="Phone" required>
+    <label for="contact-phone">Phone</label>
   </div>
 
           <textarea

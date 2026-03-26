@@ -238,15 +238,17 @@
       margin-top: 18px;
     }
 
-    input,
-    textarea,
-    select {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      font: inherit;
-      width: 100%;
-    }
+  
+input:not([type="radio"]),
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font: inherit;
+  box-sizing: border-box;
+}
 
     textarea {
       min-height: 120px;

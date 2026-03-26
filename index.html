@@ -78,10 +78,11 @@
     }
 
     .main {
-      margin-left: 230px;
-      width: calc(100% - 230px);
-      padding: 22px 28px 40px;
-    }
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  padding: 22px 28px 40px;
+  transition: margin 0.3s ease;
+}
 
     header {
       background: white;
@@ -269,39 +270,46 @@
     }
 
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
+  .menu-toggle {
+    display: block;
+  }
 
-      .sidebar {
-        transform: translateX(-100%);
-        width: 250px;
-      }
+  .sidebar {
+    transform: translateX(-100%);
+    width: 250px;
+  }
 
-      .sidebar.open {
-        transform: translateX(0);
-      }
+  .sidebar.open {
+    transform: translateX(0);
+  }
 
-      .overlay.show {
-        display: block;
-      }
+  .overlay.show {
+    display: block;
+  }
 
-     .main {
-  margin-left: 260px;
-  width: calc(100% - 260px);
-  padding: 22px 28px 40px;
-}
-      header {
-        padding: 22px 18px;
-      }
+  /* 🔥 THIS IS THE FIX */
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding: 70px 16px 30px;
+  }
 
-      header h1 {
-        font-size: 24px;
-      }
+  header {
+    padding: 22px 18px;
+  }
 
-      .card-image {
-        height: 190px;
-      }
+  header h1 {
+    font-size: 24px;
+  }
+
+  .top-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-image {
+    height: 190px;
+  }
     }
   </style>
 </head>

@@ -749,13 +749,20 @@ if (langBtn) {
     document.querySelector("#contact h2").textContent = isSpanish ? "Contacto" : "Contact";
 
     // TEMP About + Pricing (your idea)
-    document.querySelector("#about p").textContent = isSpanish
-      ? "Para aprender más sobre nuestra compañía, llámenos al 913-733-4019."
-      : "Feel free to call 913-733-4019 to learn more about our company.";
+   const aboutText = document.querySelector("#about p");
+const pricingText = document.querySelector("#pricing p");
 
-    document.querySelector("#pricing p").textContent = isSpanish
-      ? "Para información sobre precios, llámenos al 913-733-4019."
-      : "Feel free to call 913-733-4019 to learn more about pricing.";
+if (aboutText) {
+  aboutText.textContent = isSpanish
+    ? "Para aprender más sobre nuestra compañía, llámenos al 913-733-4019."
+    : "Good News Party Rentals provides clean, fun, and family-friendly inflatables for birthdays, church events, and community gatherings. We focus on simple booking, good communication, and making your event easy from start to finish.";
+}
+
+if (pricingText) {
+  pricingText.textContent = isSpanish
+    ? "Para información sobre precios, llámenos al 913-733-4019."
+    : "Prices listed are maximum rates and may be lower depending on location, package, or multiple rentals. We aim to give you the best possible deal based on your event.";
+}
 
     // Sidebar
     const links = document.querySelectorAll(".sidebar a");

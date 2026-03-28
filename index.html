@@ -739,167 +739,230 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  let isSpanish = false;
+  let noticeTimeout;
 
- // =========================
-// LANGUAGE TOGGLE (FULL FIX)
-// =========================
-let isSpanish = false;
+  // =========================
+  // LANGUAGE TOGGLE
+  // =========================
+  const langBtn = document.getElementById("langToggle");
 
-const langBtn = document.getElementById("langToggle");
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      isSpanish = !isSpanish;
+      langBtn.textContent = isSpanish ? "English" : "Español";
 
-if (langBtn) {
-  langBtn.addEventListener("click", () => {
-    isSpanish = !isSpanish;
+      // Header
+      const headerTitle = document.querySelector("h1");
+      const headerText = document.querySelector("header p");
 
-    langBtn.textContent = isSpanish ? "English" : "Español";
+      if (headerTitle) {
+        headerTitle.textContent = isSpanish
+          ? "Good News Renta de Inflables"
+          : "Good News Party Rentals";
+      }
 
-    // Header
-    document.querySelector("h1").textContent = isSpanish
-      ? "Good News Renta de Inflables"
-      : "Good News Party Rentals";
+      if (headerText) {
+        headerText.textContent = isSpanish
+          ? "Brincolines, obstáculos y diversión para tu evento."
+          : "Bounce houses, obstacle courses, and fun for your next event.";
+      }
 
-    document.querySelector("header p").textContent = isSpanish
-      ? "Brincolines, obstáculos y diversión para tu evento."
-      : "Bounce houses, obstacle courses, and fun for your next event.";
+      // Section headings
+      const rentalsHeading = document.querySelector("#rentals h2");
+      const equipmentHeading = document.querySelector("#equipment h2");
+      const aboutHeading = document.querySelector("#about h2");
+      const pricingHeading = document.querySelector("#pricing h2");
+      const expectHeading = document.querySelector("#expect h2");
+      const bookingHeading = document.querySelector("#booking h2");
+      const contactHeading = document.querySelector("#contact h2");
 
-    // Sections
-    document.querySelector("#rentals h2").textContent = isSpanish ? "Inflables" : "Our Inflatables";
-    document.querySelector("#equipment h2").textContent = isSpanish ? "Equipo" : "Equipment";
-    document.querySelector("#about h2").textContent = isSpanish ? "Sobre Nosotros" : "About Us";
-    document.querySelector("#pricing h2").textContent = isSpanish ? "Precios" : "Pricing";
-    document.querySelector("#booking h2").textContent = isSpanish ? "Solicitar Reserva" : "Request Rental Booking";
-    document.querySelector("#contact h2").textContent = isSpanish ? "Contacto" : "Contact";
+      if (rentalsHeading) rentalsHeading.textContent = isSpanish ? "Inflables" : "Our Inflatables";
+      if (equipmentHeading) equipmentHeading.textContent = isSpanish ? "Equipo" : "Equipment";
+      if (aboutHeading) aboutHeading.textContent = isSpanish ? "Sobre Nosotros" : "About Us";
+      if (pricingHeading) pricingHeading.textContent = isSpanish ? "Precios" : "Pricing";
+      if (expectHeading) expectHeading.textContent = isSpanish ? "Qué Esperar" : "What to Expect";
+      if (bookingHeading) bookingHeading.textContent = isSpanish ? "Solicitar Reserva" : "Request Rental Booking";
+      if (contactHeading) contactHeading.textContent = isSpanish ? "Contacto" : "Contact";
 
-    // TEMP About + Pricing (your idea)
-   const aboutText = document.querySelector("#about p");
-const pricingText = document.querySelector("#pricing p");
+      // About + Pricing
+      const aboutText = document.querySelector("#about p");
+      const pricingText = document.querySelector("#pricing p");
 
-if (aboutText) {
-  aboutText.textContent = isSpanish
-    ? "Para aprender más sobre nuestra compañía, llámenos al 913-733-4019."
-    : "Good News Party Rentals provides clean, fun, and family-friendly inflatables for birthdays, church events, and community gatherings. We focus on simple booking, good communication, and making your event easy from start to finish.";
-}
+      if (aboutText) {
+        aboutText.textContent = isSpanish
+          ? "Para aprender más sobre nuestra compañía, llámenos al 913-733-4019."
+          : "Good News Party Rentals provides clean, fun, and family-friendly inflatables for birthdays, church events, and community gatherings. We focus on simple booking, good communication, and making your event easy from start to finish.";
+      }
 
-if (pricingText) {
-  pricingText.textContent = isSpanish
-    ? "Para información sobre precios, llámenos al 913-733-4019."
-    : "Prices listed are maximum rates and may be lower depending on location, package, or multiple rentals. We aim to give you the best possible deal based on your event.";
-}
+      if (pricingText) {
+        pricingText.textContent = isSpanish
+          ? "Para información sobre precios, llámenos al 913-733-4019."
+          : "Prices listed are maximum rates and may be lower depending on location, package, or multiple rentals. We aim to give you the best possible deal based on your event.";
+      }
 
-    // Sidebar
-    const links = document.querySelectorAll(".sidebar a");
-if (links.length >= 8) {
-  links[0].textContent = isSpanish ? "Inicio" : "Home";
-  links[1].textContent = isSpanish ? "Inflables" : "Inflatables";
-  links[2].textContent = isSpanish ? "Equipo" : "Equipment";
-  links[3].textContent = isSpanish ? "Nosotros" : "About";
-  links[4].textContent = isSpanish ? "Precios" : "Pricing";
-  links[5].textContent = isSpanish ? "Qué Esperar" : "What to Expect";
-  links[6].textContent = isSpanish ? "Reservar" : "Book Now";
-  links[7].textContent = isSpanish ? "Contacto" : "Contact";
-    }
-    const callBtn = document.getElementById("callBtn");
-if (callBtn) {
-  callBtn.textContent = isSpanish ? "Llamar Ahora" : "Call Now";
-}
+      // What to Expect
+      const expectParagraphs = document.querySelectorAll("#expect p");
+      if (expectParagraphs.length >= 3) {
+        expectParagraphs[0].textContent = isSpanish
+          ? "Una vez que reserve su inflable, normalmente llegamos aproximadamente una hora antes de su evento para entregar e instalar todo."
+          : "Once you book your inflatable, we typically arrive about one hour before your event to deliver and set everything up.";
 
-    // Buttons
-    document.querySelectorAll(".add-request-btn").forEach(btn => {
-      if (btn.classList.contains("added")) {
-        btn.textContent = isSpanish ? "Agregado ✓" : "Added ✓";
-      } else {
-        btn.textContent = isSpanish ? "Agregar a solicitud" : "Add to Request";
+        expectParagraphs[1].textContent = isSpanish
+          ? "Nosotros nos encargamos de la instalación, aseguramos el inflable con estacas o sacos de arena según sea necesario, y revisamos todo para que usted no tenga que preocuparse."
+          : "We handle the setup, secure the inflatable with stakes or sandbags as needed, and test everything before we leave so you do not have to worry about the setup yourself.";
+
+        expectParagraphs[2].textContent = isSpanish
+          ? "Si renta un generador, usted no tendrá que instalarlo ni agregar gasolina. Nosotros lo dejaremos conectado, probado y listo para usar."
+          : "If you rent a generator, you will not need to set it up or add gasoline yourself. We will have it connected, tested, and ready to go as part of the setup.";
+      }
+
+      // Sidebar
+      const links = document.querySelectorAll(".sidebar a");
+      if (links.length >= 8) {
+        links[0].textContent = isSpanish ? "Inicio" : "Home";
+        links[1].textContent = isSpanish ? "Inflables" : "Inflatables";
+        links[2].textContent = isSpanish ? "Equipo" : "Equipment";
+        links[3].textContent = isSpanish ? "Nosotros" : "About";
+        links[4].textContent = isSpanish ? "Precios" : "Pricing";
+        links[5].textContent = isSpanish ? "Qué Esperar" : "What to Expect";
+        links[6].textContent = isSpanish ? "Reservar" : "Book Now";
+        links[7].textContent = isSpanish ? "Contacto" : "Contact";
+      }
+
+      // Call button
+      const callBtn = document.getElementById("callBtn");
+      if (callBtn) {
+        callBtn.textContent = isSpanish ? "Llamar Ahora" : "Call Now";
+      }
+
+      // Add-to-request buttons
+      document.querySelectorAll(".add-request-btn").forEach((btn) => {
+        if (btn.classList.contains("added")) {
+          btn.textContent = isSpanish ? "Agregado ✓" : "Added ✓";
+        } else {
+          btn.textContent = isSpanish ? "Agregar a solicitud" : "Add to Request";
+        }
+      });
+
+      // Review request button
+      const reviewBtn = document.getElementById("reviewRequestBtn");
+      if (reviewBtn) {
+        reviewBtn.textContent = isSpanish ? "Ver solicitud" : "Review Request";
+      }
+
+      // Booking note
+      const bookingNote = document.querySelector(".booking-note");
+      if (bookingNote) {
+        bookingNote.textContent = isSpanish
+          ? "Envíe su solicitud y le enviaremos una cotización dentro de 24 horas."
+          : "Submit your request and we’ll send you a custom quote within 24 hours.";
+      }
+
+      // Form placeholders
+      const nameInput = document.querySelector('input[name="name"]');
+      const phoneInput = document.querySelector('input[name="phone"]');
+      const emailInput = document.querySelector('input[name="email"]');
+      const dateInputField = document.querySelector('input[name="date"]');
+      const addressInput = document.querySelector('input[name="address"]');
+      const messageBox = document.getElementById("message");
+
+      if (nameInput) nameInput.placeholder = isSpanish ? "Su Nombre" : "Your Name";
+      if (phoneInput) phoneInput.placeholder = isSpanish ? "Teléfono" : "Phone";
+      if (emailInput) emailInput.placeholder = isSpanish ? "Correo Electrónico" : "Email";
+      if (dateInputField) dateInputField.placeholder = isSpanish ? "Fecha del Evento (MM/DD/YYYY)" : "Event Date (MM/DD/YYYY)";
+      if (addressInput) addressInput.placeholder = isSpanish ? "Dirección del Evento" : "Event Address";
+
+      if (messageBox) {
+        messageBox.placeholder = isSpanish
+          ? "Hola, me gustaría solicitar:"
+          : "Hello, I'd like to request:";
+      }
+
+      // Contact preference section
+      const contactTitle = document.querySelector(".contact-method strong");
+      const phoneLabel = document.querySelector('label[for="contact-phone"]');
+      const emailLabel = document.querySelector('label[for="contact-email"]');
+      const helperText = document.querySelector(".helper-text");
+
+      if (contactTitle) {
+        contactTitle.textContent = isSpanish ? "Contacto Preferido:" : "Preferred Contact:";
+      }
+
+      if (phoneLabel) {
+        phoneLabel.textContent = isSpanish ? "Teléfono" : "Phone";
+      }
+
+      if (emailLabel) {
+        emailLabel.textContent = isSpanish ? "Correo Electrónico" : "Email";
+      }
+
+      if (helperText) {
+        helperText.textContent = isSpanish
+          ? "Por favor agregue arriba la hora de inicio de su evento y cualquier otro detalle útil como notas de ubicación o tipo de superficie."
+          : "Please add to the text above your event start time and any other helpful details like location notes or surface type.";
+      }
+
+      // Submit button
+      const submitBtn = document.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.textContent = isSpanish ? "Enviar Solicitud" : "Submit Request";
+      }
+
+      // Contact section
+      const contactItems = document.querySelectorAll(".contact-grid p");
+      if (contactItems.length >= 3) {
+        contactItems[0].innerHTML = `<strong>${isSpanish ? "Teléfono:" : "Phone:"}</strong> <a href="tel:19137334019">913-733-4019</a>`;
+        contactItems[1].innerHTML = `<strong>${isSpanish ? "Correo:" : "Email:"}</strong> <a href="mailto:goodnewspartyrentals@gmail.com">goodnewspartyrentals@gmail.com</a>`;
+        contactItems[2].innerHTML = `<strong>${isSpanish ? "Área de Servicio:" : "Service Area:"}</strong> ${isSpanish ? "Condado de Johnson, Kansas y alrededores" : "Johnson County, Kansas and surrounding areas"}`;
+      }
+
+      // Footer
+      const footer = document.querySelector("footer");
+      if (footer) {
+        footer.textContent = isSpanish
+          ? "© 2026 Good News Party Rentals. Todos los derechos reservados."
+          : "© 2026 Good News Party Rentals. All rights reserved.";
       }
     });
+  }
 
-    const reviewBtn = document.getElementById("reviewRequestBtn");
-    if (reviewBtn) {
-      reviewBtn.textContent = isSpanish ? "Ver solicitud" : "Review Request";
-    }
+  // =========================
+  // DATE INPUT FORMATTER
+  // =========================
+  const dateInput = document.getElementById("dateInput");
 
-    // Booking section (THIS is the big fix)
-    const bookingNote = document.querySelector(".booking-note");
-    if (bookingNote) {
-      bookingNote.textContent = isSpanish
-        ? "Envíe su solicitud y le enviaremos una cotización dentro de 24 horas."
-        : "Submit your request and we’ll send you a custom quote within 24 hours.";
-    }
+  if (dateInput) {
+    dateInput.addEventListener("input", (e) => {
+      let digits = e.target.value.replace(/\D/g, "").slice(0, 8);
 
-    const messageBox = document.getElementById("message");
-    if (messageBox) {
-      messageBox.placeholder = isSpanish
-        ? "Hola, me gustaría solicitar:"
-        : "Hello, I'd like to request:";
-    }
+      let month = digits.slice(0, 2);
+      let day = digits.slice(2, 4);
+      let year = digits.slice(4, 8);
 
-    const submitBtn = document.querySelector('button[type="submit"]');
-    if (submitBtn) {
-      submitBtn.textContent = isSpanish ? "Enviar Solicitud" : "Submit Request";
-    }
+      if (month.length === 2) {
+        const monthNum = parseInt(month, 10);
+        if (monthNum < 1) month = "01";
+        if (monthNum > 12) month = "12";
+      }
 
-    // Form placeholders
-const nameInput = document.querySelector('input[name="name"]');
-const phoneInput = document.querySelector('input[name="phone"]');
-const emailInput = document.querySelector('input[name="email"]');
-const dateInput = document.querySelector('input[name="date"]');
-const addressInput = document.querySelector('input[name="address"]');
+      if (day.length === 2) {
+        const dayNum = parseInt(day, 10);
+        if (dayNum < 1) day = "01";
+        if (dayNum > 31) day = "31";
+      }
 
-if (nameInput) nameInput.placeholder = isSpanish ? "Su Nombre" : "Your Name";
-if (phoneInput) phoneInput.placeholder = isSpanish ? "Teléfono" : "Phone";
-if (emailInput) emailInput.placeholder = isSpanish ? "Correo Electrónico" : "Email";
-if (dateInput) dateInput.placeholder = isSpanish ? "Fecha del Evento (MM/DD/YYYY)" : "Event Date (MM/DD/YYYY)";
-if (addressInput) addressInput.placeholder = isSpanish ? "Dirección del Evento" : "Event Address";
+      let formatted = month;
 
-// Contact section
-const contactTitle = document.querySelector(".contact-method strong");
-const phoneLabel = document.querySelector('label[for="contact-phone"]');
-const emailLabel = document.querySelector('label[for="contact-email"]');
-const helperText = document.querySelector(".helper-text");
+      if (digits.length >= 2) formatted += "/";
+      if (digits.length > 2) formatted += day;
+      if (digits.length >= 4) formatted += "/";
+      if (digits.length > 4) formatted += year;
 
-if (contactTitle) contactTitle.textContent = isSpanish ? "Contacto Preferido:" : "Preferred Contact:";
-if (phoneLabel) phoneLabel.textContent = isSpanish ? "Teléfono" : "Phone";
-if (emailLabel) emailLabel.textContent = isSpanish ? "Correo Electrónico" : "Email";
+      e.target.value = formatted;
+    });
+  }
 
-if (helperText) {
-  helperText.textContent = isSpanish
-    ? "Por favor agregue arriba la hora de inicio de su evento y cualquier otro detalle útil como notas de ubicación o tipo de superficie."
-    : "Please add to the text above your event start time and any other helpful details like location notes or surface type.";
-}
-
-    // Contact section
-    const contactItems = document.querySelectorAll(".contact-grid p");
-    if (contactItems.length >= 3) {
-      contactItems[0].innerHTML = `<strong>${isSpanish ? "Teléfono:" : "Phone:"}</strong> <a href="tel:19137334019">913-733-4019</a>`;
-      contactItems[1].innerHTML = `<strong>${isSpanish ? "Correo:" : "Email:"}</strong> <a href="mailto:goodnewspartyrentals@gmail.com">goodnewspartyrentals@gmail.com</a>`;
-      contactItems[2].innerHTML = `<strong>${isSpanish ? "Área de Servicio:" : "Service Area:"}</strong> ${isSpanish ? "Condado de Johnson, Kansas y alrededores" : "Johnson County, Kansas and surrounding areas"}`;
-    }
-
-    // Footer
-    const footer = document.querySelector("footer");
-    if (footer) {
-      footer.textContent = isSpanish
-        ? "© 2026 Good News Party Rentals. Todos los derechos reservados."
-        : "© 2026 Good News Party Rentals. All rights reserved.";
-    }
-  });
-}
-const dateInput = document.getElementById("dateInput");
-
-if (dateInput) {
-  dateInput.addEventListener("input", (e) => {
-    let value = e.target.value.replace(/\D/g, "");
-
-    if (value.length > 8) value = value.slice(0, 8);
-
-    if (value.length >= 5) {
-      value = value.replace(/(\d{2})(\d{2})(\d{0,4})/, "$1/$2/$3");
-    } else if (value.length >= 3) {
-      value = value.replace(/(\d{2})(\d{0,2})/, "$1/$2");
-    }
-
-    e.target.value = value;
-  });
-}
   // =========================
   // MENU
   // =========================
@@ -925,34 +988,42 @@ if (dateInput) {
   // =========================
   // ADD TO REQUEST
   // =========================
-  let noticeTimeout;
-
   window.addToRequest = function (itemName, buttonEl) {
     const textarea = document.getElementById("message");
     const notice = document.getElementById("quoteNotice");
     const reviewBtn = document.getElementById("reviewRequestBtn");
 
-    const intro = "Hello, I'd like to request:";
+    const intro = isSpanish
+      ? "Hola, me gustaría solicitar:"
+      : "Hello, I'd like to request:";
+
     const line = "- " + itemName;
     const currentText = textarea.value.trim();
 
     if (currentText === "") {
       textarea.value = intro + "\n\n" + line;
-    } else if (currentText === intro) {
+    } else if (
+      currentText === "Hello, I'd like to request:" ||
+      currentText === "Hola, me gustaría solicitar:"
+    ) {
       textarea.value = intro + "\n\n" + line;
     } else if (!textarea.value.includes(line)) {
       textarea.value += "\n" + line;
     }
 
-    notice.textContent = "Added to request";
-    notice.classList.add("show");
-    reviewBtn.classList.add("show");
+    if (notice) {
+      notice.textContent = isSpanish ? "Agregado a la solicitud" : "Added to request";
+      notice.classList.add("show");
+    }
+
+    if (reviewBtn) {
+      reviewBtn.classList.add("show");
+    }
 
     if (buttonEl) {
-      const originalText = buttonEl.dataset.originalText || buttonEl.textContent.trim();
+      const originalText = isSpanish ? "Agregar a solicitud" : "Add to Request";
       buttonEl.dataset.originalText = originalText;
-
-      buttonEl.textContent = "Added ✓";
+      buttonEl.textContent = isSpanish ? "Agregado ✓" : "Added ✓";
       buttonEl.classList.add("added");
 
       setTimeout(() => {
@@ -963,7 +1034,9 @@ if (dateInput) {
 
     clearTimeout(noticeTimeout);
     noticeTimeout = setTimeout(() => {
-      notice.classList.remove("show");
+      if (notice) {
+        notice.classList.remove("show");
+      }
     }, 1800);
   };
 
@@ -991,7 +1064,7 @@ if (dateInput) {
     const dotsWrap = card.querySelector(".card-dots");
 
     if (images.length <= 1) {
-      gallery.querySelectorAll(".gallery-zone, .gallery-arrow").forEach(el => el.remove());
+      gallery.querySelectorAll(".gallery-zone, .gallery-arrow").forEach((el) => el.remove());
       return;
     }
 
@@ -1000,6 +1073,7 @@ if (dateInput) {
 
     images.forEach((img, index) => {
       const dot = document.createElement("button");
+      dot.type = "button";
       dot.className = "dot" + (index === 0 ? " active" : "");
 
       dot.addEventListener("click", () => {
@@ -1012,19 +1086,22 @@ if (dateInput) {
     const prev = gallery.querySelector(".gallery-zone.prev");
     const next = gallery.querySelector(".gallery-zone.next");
 
-    prev.addEventListener("click", () => {
-      let i = Number(gallery.dataset.currentIndex);
-      setGalleryImage(gallery, (i - 1 + images.length) % images.length);
-    });
+    if (prev) {
+      prev.addEventListener("click", () => {
+        const i = Number(gallery.dataset.currentIndex);
+        setGalleryImage(gallery, (i - 1 + images.length) % images.length);
+      });
+    }
 
-    next.addEventListener("click", () => {
-      let i = Number(gallery.dataset.currentIndex);
-      setGalleryImage(gallery, (i + 1) % images.length);
-    });
+    if (next) {
+      next.addEventListener("click", () => {
+        const i = Number(gallery.dataset.currentIndex);
+        setGalleryImage(gallery, (i + 1) % images.length);
+      });
+    }
   }
 
   document.querySelectorAll("[data-gallery]").forEach(initializeGallery);
-
 });
 </script>
 </body>

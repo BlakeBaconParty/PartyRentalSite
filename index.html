@@ -930,38 +930,54 @@ document.addEventListener("DOMContentLoaded", function () {
   // =========================
   // DATE INPUT FORMATTER
   // =========================
-  const dateInput = document.getElementById("dateInput");
+ const dateInput = document.getElementById("dateInput");
 
-  if (dateInput) {
-    dateInput.addEventListener("input", (e) => {
-      let digits = e.target.value.replace(/\D/g, "").slice(0, 8);
+if (dateInput) {
+  dateInput.addEventListener("input", (e) => {
+    let cursorPos = e.target.selectionStart;
+    let originalLength = e.target.value.length;
 
-      let month = digits.slice(0, 2);
-      let day = digits.slice(2, 4);
-      let year = digits.slice(4, 8);
+    let digits = e.target.value.replace(/\D/g, "").slice(0, 8);
 
-      if (month.length === 2) {
-        const monthNum = parseInt(month, 10);
-        if (monthNum < 1) month = "01";
-        if (monthNum > 12) month = "12";
-      }
+    let month = digits.slice(0, 2);
+    let day = digits.slice(2, 4);
+    let year = digits.slice(4, 8);
 
-      if (day.length === 2) {
-        const dayNum = parseInt(day, 10);
-        if (dayNum < 1) day = "01";
-        if (dayNum > 31) day = "31";
-      }
+    // Clamp values
+    if (month.length === 2) {
+      let m = parseInt(month, 10);
+      if (m < 1) month = "01";
+      if (m > 12) month = "12";
+    }
 
-      let formatted = month;
+    if (day.length === 2) {
+      let d = parseInt(day, 10);
+      if (d < 1) day = "01";
+      if (d > 31) day = "31";
+    }
 
-      if (digits.length >= 2) formatted += "/";
-      if (digits.length > 2) formatted += day;
-      if (digits.length >= 4) formatted += "/";
-      if (digits.length > 4) formatted += year;
+    let formatted = "";
 
-      e.target.value = formatted;
-    });
-  }
+    if (digits.length > 0) {
+      formatted = month;
+    }
+
+    if (digits.length >= 3) {
+      formatted += "/" + day;
+    }
+
+    if (digits.length >= 5) {
+      formatted += "/" + year;
+    }
+
+    e.target.value = formatted;
+
+    // Adjust cursor so it doesn't jump weirdly
+    let newLength = formatted.length;
+    cursorPos += newLength - originalLength;
+    e.target.setSelectionRange(cursorPos, cursorPos);
+  });
+}
 
   // =========================
   // MENU

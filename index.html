@@ -545,15 +545,60 @@
         max-width: 340px;
       }
 
-      .info-btn {
-        width: 100%;
-        margin-left: 0;
-      }
+      @media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
 
-      .modal-box {
-        padding: 22px 18px 18px;
-      }
-    }
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding: 70px 15px;
+  }
+
+  .card-image {
+    height: 200px;
+  }
+
+  #reviewRequestBtn {
+    right: 14px;
+    bottom: 14px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  #quoteNotice {
+    width: calc(100% - 28px);
+    max-width: 340px;
+  }
+
+  /* 👇 THIS is the fix */
+  .card-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .card-actions .btn,
+  .card-actions .info-btn {
+    flex: 1;
+    width: auto;
+    margin: 0;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .modal-box {
+    padding: 22px 18px 18px;
+  }
+}
   </style>
 </head>
 <body>

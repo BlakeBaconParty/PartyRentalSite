@@ -787,14 +787,15 @@ if (pricingText) {
 
     // Sidebar
     const links = document.querySelectorAll(".sidebar a");
-    if (links.length >= 7) {
-      links[0].textContent = isSpanish ? "Inicio" : "Home";
-      links[1].textContent = isSpanish ? "Inflables" : "Inflatables";
-      links[2].textContent = isSpanish ? "Equipo" : "Equipment";
-      links[3].textContent = isSpanish ? "Nosotros" : "About";
-      links[4].textContent = isSpanish ? "Precios" : "Pricing";
-      links[5].textContent = isSpanish ? "Reservar" : "Book Now";
-      links[6].textContent = isSpanish ? "Contacto" : "Contact";
+if (links.length >= 8) {
+  links[0].textContent = isSpanish ? "Inicio" : "Home";
+  links[1].textContent = isSpanish ? "Inflables" : "Inflatables";
+  links[2].textContent = isSpanish ? "Equipo" : "Equipment";
+  links[3].textContent = isSpanish ? "Nosotros" : "About";
+  links[4].textContent = isSpanish ? "Precios" : "Pricing";
+  links[5].textContent = isSpanish ? "Qué Esperar" : "What to Expect";
+  links[6].textContent = isSpanish ? "Reservar" : "Book Now";
+  links[7].textContent = isSpanish ? "Contacto" : "Contact";
     }
     const callBtn = document.getElementById("callBtn");
 if (callBtn) {

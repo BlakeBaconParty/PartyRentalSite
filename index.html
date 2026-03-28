@@ -803,6 +803,35 @@ if (langBtn) {
       submitBtn.textContent = isSpanish ? "Enviar Solicitud" : "Submit Request";
     }
 
+    // Form placeholders
+const nameInput = document.querySelector('input[name="name"]');
+const phoneInput = document.querySelector('input[name="phone"]');
+const emailInput = document.querySelector('input[name="email"]');
+const dateInput = document.querySelector('input[name="date"]');
+const addressInput = document.querySelector('input[name="address"]');
+
+if (nameInput) nameInput.placeholder = isSpanish ? "Su Nombre" : "Your Name";
+if (phoneInput) phoneInput.placeholder = isSpanish ? "Teléfono" : "Phone";
+if (emailInput) emailInput.placeholder = isSpanish ? "Correo Electrónico" : "Email";
+if (dateInput) dateInput.placeholder = isSpanish ? "Fecha del Evento (MM/DD/YYYY)" : "Event Date (MM/DD/YYYY)";
+if (addressInput) addressInput.placeholder = isSpanish ? "Dirección del Evento" : "Event Address";
+
+// Contact section
+const contactTitle = document.querySelector(".contact-method strong");
+const phoneLabel = document.querySelector('label[for="contact-phone"]');
+const emailLabel = document.querySelector('label[for="contact-email"]');
+const helperText = document.querySelector(".helper-text");
+
+if (contactTitle) contactTitle.textContent = isSpanish ? "Contacto Preferido:" : "Preferred Contact:";
+if (phoneLabel) phoneLabel.textContent = isSpanish ? "Teléfono" : "Phone";
+if (emailLabel) emailLabel.textContent = isSpanish ? "Correo Electrónico" : "Email";
+
+if (helperText) {
+  helperText.textContent = isSpanish
+    ? "Por favor agregue arriba la hora de inicio de su evento y cualquier otro detalle útil como notas de ubicación o tipo de superficie."
+    : "Please add to the text above your event start time and any other helpful details like location notes or surface type.";
+}
+
     // Contact section
     const contactItems = document.querySelectorAll(".contact-grid p");
     if (contactItems.length >= 3) {

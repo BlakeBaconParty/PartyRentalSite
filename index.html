@@ -673,6 +673,7 @@
           <input
             type="text"
             name="date"
+            id="dateInput"
             placeholder="Event Date (MM/DD/YYYY)"
             inputmode="numeric"
             pattern="\d{2}/\d{2}/\d{4}"
@@ -882,7 +883,23 @@ if (helperText) {
     }
   });
 }
+const dateInput = document.getElementById("dateInput");
 
+if (dateInput) {
+  dateInput.addEventListener("input", (e) => {
+    let value = e.target.value.replace(/\D/g, "");
+
+    if (value.length > 8) value = value.slice(0, 8);
+
+    if (value.length >= 5) {
+      value = value.replace(/(\d{2})(\d{2})(\d{0,4})/, "$1/$2/$3");
+    } else if (value.length >= 3) {
+      value = value.replace(/(\d{2})(\d{0,2})/, "$1/$2");
+    }
+
+    e.target.value = value;
+  });
+}
   // =========================
   // MENU
   // =========================

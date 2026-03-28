@@ -95,6 +95,20 @@
       background: rgba(255, 255, 255, 0.18);
     }
 
+    .lang-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 3000;
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
     .main {
       margin-left: 260px;
       width: calc(100% - 260px);
@@ -452,6 +466,7 @@
   </style>
 </head>
 <body>
+  <button id="langToggle" class="lang-btn">Español</button>
   <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu">☰</button>
   <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
@@ -704,140 +719,192 @@
     Review Request
   </button>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("sidebar").classList.toggle("open");
-      document.getElementById("overlay").classList.toggle("show");
-    }
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-    function closeMenu() {
-      document.getElementById("sidebar").classList.remove("open");
-      document.getElementById("overlay").classList.remove("show");
-    }
+  // =========================
+  // LANGUAGE TOGGLE
+  // =========================
+  let isSpanish = false;
 
-    function scrollToRequest() {
-      document.getElementById("booking").scrollIntoView({
-        behavior: "smooth"
+  const langBtn = document.getElementById("langToggle");
+
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      isSpanish = !isSpanish;
+
+      langBtn.textContent = isSpanish ? "English" : "Español";
+
+      // Header
+      document.querySelector("h1").textContent = isSpanish
+        ? "Good News Renta de Inflables"
+        : "Good News Party Rentals";
+
+      document.querySelector("header p").textContent = isSpanish
+        ? "Brincolines, obstáculos y diversión para tu evento."
+        : "Bounce houses, obstacle courses, and fun for your next event.";
+
+      // Sections
+      document.querySelector("#rentals h2").textContent = isSpanish ? "Inflables" : "Our Inflatables";
+      document.querySelector("#equipment h2").textContent = isSpanish ? "Equipo" : "Equipment";
+      document.querySelector("#booking h2").textContent = isSpanish ? "Solicitar Reserva" : "Request Rental Booking";
+      document.querySelector("#contact h2").textContent = isSpanish ? "Contacto" : "Contact";
+
+      // Sidebar
+      const links = document.querySelectorAll(".sidebar a");
+      if (links.length >= 4) {
+        links[0].textContent = isSpanish ? "Inicio" : "Home";
+        links[1].textContent = isSpanish ? "Inflables" : "Inflatables";
+        links[2].textContent = isSpanish ? "Equipo" : "Equipment";
+        links[3].textContent = isSpanish ? "Nosotros" : "About";
+      }
+
+      // Buttons
+      document.querySelectorAll(".add-request-btn").forEach(btn => {
+        btn.textContent = isSpanish ? "Agregar a solicitud" : "Add to Request";
       });
-    }
 
-    let noticeTimeout;
-
-    function addToRequest(itemName, buttonEl) {
-      const textarea = document.getElementById("message");
-      const notice = document.getElementById("quoteNotice");
       const reviewBtn = document.getElementById("reviewRequestBtn");
-      const intro = "Hello, I'd like to request:";
-      const line = "- " + itemName;
-      const currentText = textarea.value.trim();
-
-      if (currentText === "") {
-        textarea.value = intro + "\n\n" + line;
-      } else if (currentText === intro) {
-        textarea.value = intro + "\n\n" + line;
-      } else if (!textarea.value.includes(line)) {
-        textarea.value += "\n" + line;
+      if (reviewBtn) {
+        reviewBtn.textContent = isSpanish ? "Ver solicitud" : "Review Request";
       }
 
-      notice.textContent = "Added to request";
-      notice.classList.add("show");
-      reviewBtn.classList.add("show");
-
-      if (buttonEl) {
-        const originalText = buttonEl.dataset.originalText || buttonEl.textContent.trim();
-        buttonEl.dataset.originalText = originalText;
-        buttonEl.textContent = "Added ✓";
-        buttonEl.classList.add("added");
-
-        setTimeout(() => {
-          buttonEl.textContent = originalText;
-          buttonEl.classList.remove("added");
-        }, 1400);
-      }
-
-      clearTimeout(noticeTimeout);
-      noticeTimeout = setTimeout(() => {
-        notice.classList.remove("show");
-      }, 1800);
-    }
-
-    function setGalleryImage(gallery, index) {
-      const images = gallery.querySelectorAll("img");
-      const dots = gallery.parentElement.querySelectorAll(".dot");
-
-      images.forEach((img, i) => {
-        img.classList.toggle("active", i === index);
-      });
-
-      dots.forEach((dot, i) => {
-        dot.classList.toggle("active", i === index);
-      });
-
-      gallery.dataset.currentIndex = String(index);
-    }
-
-    function initializeGallery(gallery) {
-      const images = gallery.querySelectorAll("img");
-      const card = gallery.closest(".gallery-card");
-      const dotsWrap = card.querySelector(".card-dots");
-
-      if (images.length <= 1) {
-        gallery.querySelectorAll(".gallery-zone, .gallery-arrow").forEach((el) => {
-          el.remove();
-        });
-        return;
-      }
-
-      gallery.classList.add("has-multiple-images");
-      gallery.dataset.currentIndex = "0";
-
-      dotsWrap.innerHTML = "";
-
-      images.forEach((img, index) => {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "dot" + (index === 0 ? " active" : "");
-        dot.setAttribute("aria-label", "Go to photo " + (index + 1));
-        dot.addEventListener("click", () => {
-          setGalleryImage(gallery, index);
-        });
-        dotsWrap.appendChild(dot);
-      });
-
-      const prevZone = gallery.querySelector(".gallery-zone.prev");
-      const nextZone = gallery.querySelector(".gallery-zone.next");
-
-      prevZone.addEventListener("click", () => {
-        const currentIndex = Number(gallery.dataset.currentIndex || 0);
-        const nextIndex = (currentIndex - 1 + images.length) % images.length;
-        setGalleryImage(gallery, nextIndex);
-      });
-
-      nextZone.addEventListener("click", () => {
-        const currentIndex = Number(gallery.dataset.currentIndex || 0);
-        const nextIndex = (currentIndex + 1) % images.length;
-        setGalleryImage(gallery, nextIndex);
-      });
-    }
-
-    document.querySelectorAll("[data-gallery]").forEach(initializeGallery);
-
-    document.addEventListener("click", function (event) {
-      const sidebar = document.getElementById("sidebar");
-      const menuToggle = document.querySelector(".menu-toggle");
-      const clickedInsideSidebar = sidebar.contains(event.target);
-      const clickedMenuToggle = menuToggle.contains(event.target);
-
-      if (
-        window.innerWidth <= 768 &&
-        sidebar.classList.contains("open") &&
-        !clickedInsideSidebar &&
-        !clickedMenuToggle
-      ) {
-        closeMenu();
+      const messageBox = document.getElementById("message");
+      if (messageBox) {
+        messageBox.placeholder = isSpanish
+          ? "Hola, me gustaría solicitar:"
+          : "Hello, I'd like to request:";
       }
     });
-  </script>
+  }
+
+  // =========================
+  // MENU
+  // =========================
+  window.toggleMenu = function () {
+    document.getElementById("sidebar").classList.toggle("open");
+    document.getElementById("overlay").classList.toggle("show");
+  };
+
+  window.closeMenu = function () {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+  };
+
+  // =========================
+  // SCROLL TO FORM
+  // =========================
+  window.scrollToRequest = function () {
+    document.getElementById("booking").scrollIntoView({
+      behavior: "smooth"
+    });
+  };
+
+  // =========================
+  // ADD TO REQUEST
+  // =========================
+  let noticeTimeout;
+
+  window.addToRequest = function (itemName, buttonEl) {
+    const textarea = document.getElementById("message");
+    const notice = document.getElementById("quoteNotice");
+    const reviewBtn = document.getElementById("reviewRequestBtn");
+
+    const intro = "Hello, I'd like to request:";
+    const line = "- " + itemName;
+    const currentText = textarea.value.trim();
+
+    if (currentText === "") {
+      textarea.value = intro + "\n\n" + line;
+    } else if (currentText === intro) {
+      textarea.value = intro + "\n\n" + line;
+    } else if (!textarea.value.includes(line)) {
+      textarea.value += "\n" + line;
+    }
+
+    notice.textContent = "Added to request";
+    notice.classList.add("show");
+    reviewBtn.classList.add("show");
+
+    if (buttonEl) {
+      const originalText = buttonEl.dataset.originalText || buttonEl.textContent.trim();
+      buttonEl.dataset.originalText = originalText;
+
+      buttonEl.textContent = "Added ✓";
+      buttonEl.classList.add("added");
+
+      setTimeout(() => {
+        buttonEl.textContent = originalText;
+        buttonEl.classList.remove("added");
+      }, 1400);
+    }
+
+    clearTimeout(noticeTimeout);
+    noticeTimeout = setTimeout(() => {
+      notice.classList.remove("show");
+    }, 1800);
+  };
+
+  // =========================
+  // GALLERY
+  // =========================
+  function setGalleryImage(gallery, index) {
+    const images = gallery.querySelectorAll("img");
+    const dots = gallery.parentElement.querySelectorAll(".dot");
+
+    images.forEach((img, i) => {
+      img.classList.toggle("active", i === index);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === index);
+    });
+
+    gallery.dataset.currentIndex = String(index);
+  }
+
+  function initializeGallery(gallery) {
+    const images = gallery.querySelectorAll("img");
+    const card = gallery.closest(".gallery-card");
+    const dotsWrap = card.querySelector(".card-dots");
+
+    if (images.length <= 1) {
+      gallery.querySelectorAll(".gallery-zone, .gallery-arrow").forEach(el => el.remove());
+      return;
+    }
+
+    gallery.dataset.currentIndex = "0";
+    dotsWrap.innerHTML = "";
+
+    images.forEach((img, index) => {
+      const dot = document.createElement("button");
+      dot.className = "dot" + (index === 0 ? " active" : "");
+
+      dot.addEventListener("click", () => {
+        setGalleryImage(gallery, index);
+      });
+
+      dotsWrap.appendChild(dot);
+    });
+
+    const prev = gallery.querySelector(".gallery-zone.prev");
+    const next = gallery.querySelector(".gallery-zone.next");
+
+    prev.addEventListener("click", () => {
+      let i = Number(gallery.dataset.currentIndex);
+      setGalleryImage(gallery, (i - 1 + images.length) % images.length);
+    });
+
+    next.addEventListener("click", () => {
+      let i = Number(gallery.dataset.currentIndex);
+      setGalleryImage(gallery, (i + 1) % images.length);
+    });
+  }
+
+  document.querySelectorAll("[data-gallery]").forEach(initializeGallery);
+
+});
+</script>
 </body>
 </html>
 

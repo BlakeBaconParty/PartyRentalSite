@@ -485,7 +485,7 @@
       <p>Bounce houses, obstacle courses, and fun for your next event.</p>
 
       <div class="top-actions">
-        <a href="tel:19137334019" class="btn">Call Now</a>
+        <a href="tel:19137334019" class="btn" id="callBtn">Call Now</a>
       </div>
     </header>
 
@@ -796,6 +796,10 @@ if (pricingText) {
       links[5].textContent = isSpanish ? "Reservar" : "Book Now";
       links[6].textContent = isSpanish ? "Contacto" : "Contact";
     }
+    const callBtn = document.getElementById("callBtn");
+if (callBtn) {
+  callBtn.textContent = isSpanish ? "Llamar Ahora" : "Call Now";
+}
 
     // Buttons
     document.querySelectorAll(".add-request-btn").forEach(btn => {
